@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { bearer } from "better-auth/plugins";
 
 import * as schema from "../db/schema";
 import { createDb } from "./db";
@@ -23,6 +24,7 @@ export function createAuth(env: AuthEnv) {
     emailAndPassword: {
       enabled: true,
     },
+    plugins: [bearer()],
     trustedOrigins: env.CORS_ORIGIN?.split(",").map((origin) => origin.trim()) ?? [],
   });
 }
