@@ -36,6 +36,11 @@ app.use(
 );
 
 app.use("*", async (c, next) => {
+  if (new URL(c.req.url).pathname.startsWith("/api/auth")) {
+    await next();
+    return;
+  }
+
   const auth = createAuth(c.env);
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
 
