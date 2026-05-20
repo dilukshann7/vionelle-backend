@@ -2,6 +2,10 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 
 import { createAuth, type AuthSession } from "./lib/auth";
+import { logRoutes } from "./routes/logs";
+import { onboardingRoutes } from "./routes/onboarding";
+import { productRoutes } from "./routes/products";
+import { recommendationRoutes } from "./routes/recommendations";
 
 type Env = {
   DATABASE_URL: string;
@@ -69,5 +73,10 @@ app.get("/api/me", (c) => {
 
   return c.json({ user, session });
 });
+
+app.route("/api/onboarding", onboardingRoutes);
+app.route("/api/products", productRoutes);
+app.route("/api/logs", logRoutes);
+app.route("/api/recommendations", recommendationRoutes);
 
 export default app;
