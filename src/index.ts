@@ -21,6 +21,13 @@ type Variables = {
   session: AuthSession["session"] | null;
 };
 
+const defaultCorsOrigins = [
+  "http://localhost:8081",
+  "http://127.0.0.1:8081",
+  "http://localhost:19006",
+  "http://127.0.0.1:19006",
+];
+
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
 app.use(
@@ -28,10 +35,10 @@ app.use(
   cors({
     origin: (origin, c) => {
       const allowedOrigins =
-        c.env.CORS_ORIGIN?.split(",").map((value: string) => value.trim()) ?? [];
+        c.env.CORS_ORIGIN?.split(",").map((value: string) => value.trim()).filter(Boolean) ??
+        defaultCorsOrigins;
       if (!origin) return "";
       if (allowedOrigins.includes(origin)) return origin;
-      if (allowedOrigins.length === 0 && origin.startsWith("http://localhost")) return origin;
       return allowedOrigins[0] ?? "";
     },
     allowHeaders: ["Content-Type", "Authorization"],
