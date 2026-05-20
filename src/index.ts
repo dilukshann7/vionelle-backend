@@ -9,6 +9,7 @@ type Env = {
   BETTER_AUTH_URL: string;
   CORS_ORIGIN?: string;
   AI_API_KEY?: string;
+  AI_MODEL?: string;
 };
 
 type Variables = {
